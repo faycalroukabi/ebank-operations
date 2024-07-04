@@ -28,6 +28,14 @@ spring:
           uri: lb://transaction-service
           predicates:
             - Path=/transaction/**
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth/**
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user/**
 
 
 eureka:
@@ -38,4 +46,4 @@ eureka:
     preferIpAddress: true
 
 server:
-  port: 8888
+  port: 9999
