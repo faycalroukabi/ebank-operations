@@ -15,4 +15,5 @@ public interface BankAccountService {
     CurrentAccountDTO updateCurrentAccount(UpdateCurrentAccountDTO accountDTO) throws BankAccountNotFoundException, CommandRejectedException;
     SavingAccountDTO updateSavingAccount(UpdateSavingAccountDTO accountDTO) throws BankAccountNotFoundException, CommandRejectedException;
     AccountDTO getAccountById(String id) throws BankAccountNotFoundException;
+    List<AccountDTO> getAllAccountByCustomerId(String customerId);
 }

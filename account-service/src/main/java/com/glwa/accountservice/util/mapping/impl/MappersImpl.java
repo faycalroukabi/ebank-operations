@@ -1,5 +1,6 @@
 package com.glwa.accountservice.util.mapping.impl;
 
+import com.glwa.accountservice.dtos.AccountDTO;
 import com.glwa.accountservice.dtos.BankAccountDTO;
 import com.glwa.accountservice.dtos.CurrentAccountDTO;
 import com.glwa.accountservice.dtos.SavingAccountDTO;
@@ -57,5 +58,18 @@ public class MappersImpl implements Mappers {
     @Override
     public List<BankAccountDTO> fromListOfBankAccount(List<BankAccount> bankAccounts) {
         return bankAccounts.stream().map(this::fromBankAccount).toList();
+    }
+
+    @Override
+    public List<AccountDTO> fromListOfAccount(List<BankAccount> accounts) {
+        return accounts.stream().map(this::fromAccount).toList();
+    }
+
+    public AccountDTO fromAccount(BankAccount account) {
+        return fromCurrentAccount(account);
+    }
+
+    public AccountDTO fromCurrentAccount(BankAccount currentAccount) {
+        return new AccountDTO(currentAccount.getId(),currentAccount.getBalance(),currentAccount.getCreatedAt(),currentAccount.getStatus(),currentAccount.getCustomerId(),0,0);
     }
 }

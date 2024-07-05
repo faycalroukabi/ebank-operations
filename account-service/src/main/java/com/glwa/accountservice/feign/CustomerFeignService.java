@@ -9,5 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface CustomerFeignService {
 
     @GetMapping("/customer/get/{id}")
-    CustomerDTO getCustomerById(@PathVariable  Long id);
+    CustomerDTO getCustomerById(@PathVariable  String id);
+
+    @GetMapping("/customer/get/{cin}")
+    CustomerDTO getCustomerByCin(@PathVariable  String cin);
 }

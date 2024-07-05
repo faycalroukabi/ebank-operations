@@ -6,7 +6,6 @@ import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Login from './pages/Login/Login';
-import axios from 'axios';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 
@@ -22,7 +21,7 @@ function App() {
           //const roles = response.data;
           // Determine the user's role based on the fetched roles
           //setUser({ role: roles.includes('ADMIN') ? 'admin' : 'user' });
-          setUser({ role: 'admin' });
+          setUser({ role: 'user' });
         } else {
           console.error('Failed to fetch user roles');
         }

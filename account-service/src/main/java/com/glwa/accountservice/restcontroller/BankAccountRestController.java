@@ -26,6 +26,11 @@ public class BankAccountRestController {
         return bankAccountService.getAccountById(id);
     }
 
+    @GetMapping("/list/{cin}")
+    public List<AccountDTO> getAllAccountByCustomerId(@PathVariable String cin){
+        return bankAccountService.getAllAccountByCustomerId(cin);
+    }
+
     @GetMapping("/list")
     public List<BankAccountDTO> getAllBankAccount(){
         return bankAccountService.getAllBankAccount();
