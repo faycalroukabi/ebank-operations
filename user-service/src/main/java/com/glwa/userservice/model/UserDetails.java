@@ -3,7 +3,7 @@ package com.glwa.userservice.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 @Embeddable
 @Builder
@@ -21,5 +21,4 @@ public class UserDetails {
     private String address;
     private String postalCode;
     private String aboutMe;
-    private String profilePicture;
 }

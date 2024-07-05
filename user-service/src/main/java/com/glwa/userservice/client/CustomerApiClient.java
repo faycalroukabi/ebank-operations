@@ -16,6 +16,4 @@ public interface CustomerApiClient {
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<String> saveCustomer(@RequestBody CustomerDTO file);
 
-    @DeleteMapping("/delete/{id}")
-    ResponseEntity<Void> deleteImageFromFileSystem(@PathVariable String id);
 }
