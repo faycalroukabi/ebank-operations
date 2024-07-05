@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "user-service", path = "/v1/user")
+@FeignClient(name = "user-service", path = "/user")
 public interface UserServiceClient {
     @PostMapping("/save")
     ResponseEntity<RegisterDto> save(@RequestBody RegisterRequest request);

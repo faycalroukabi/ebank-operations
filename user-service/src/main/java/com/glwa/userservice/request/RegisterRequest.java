@@ -1,5 +1,6 @@
 package com.glwa.userservice.request;
 
+import com.glwa.userservice.dto.CustomerDTO;
 import com.glwa.userservice.enums.Role;
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -17,4 +18,5 @@ public class RegisterRequest {
     private String email;
     @NotNull(message = "User type is required")
     private Role role;
+    private CustomerDTO customerDTO;
 }

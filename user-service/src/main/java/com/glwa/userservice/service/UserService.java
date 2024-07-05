@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -31,6 +30,7 @@ public class UserService {
                 .email(request.getEmail())
                 .role(request.getRole())
                 .active(Active.ACTIVE).build();
+        customerApiClient.saveCustomer(request.getCustomerDTO());
         return userRepository.save(toSave);
     }
 
@@ -50,10 +50,10 @@ public class UserService {
         return findUserByUsername(username);
     }
 
-    public User updateUserById(UserUpdateRequest request, MultipartFile file) {
+    public User updateUserById(UserUpdateRequest request) {
         User toUpdate = findUserById(request.getId());
 
-        request.setUserDetails(updateUserDetails(toUpdate.getUserDetails(), request.getUserDetails(), file));
+        request.setUserDetails(updateUserDetails(toUpdate.getUserDetails(), request.getUserDetails()));
         modelMapper.map(request, toUpdate);
 
         return userRepository.save(toUpdate);
@@ -80,16 +80,8 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException("User not found"));
     }
 
-    private UserDetails updateUserDetails(UserDetails toUpdate, UserDetails request, MultipartFile file) {
+    private UserDetails updateUserDetails(UserDetails toUpdate, UserDetails request) {
         toUpdate = toUpdate == null ? new UserDetails() : toUpdate;
-
-        if (file != null) {
-            String profilePicture = customerApiClient.uploadImageToFIleSystem(file).getBody();
-            if (profilePicture != null) {
-                customerApiClient.deleteImageFromFileSystem(toUpdate.getProfilePicture());
-                toUpdate.setProfilePicture(profilePicture);
-            }
-        }
 
         modelMapper.map(request, toUpdate);
 

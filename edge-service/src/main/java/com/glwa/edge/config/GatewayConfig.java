@@ -24,6 +24,7 @@ public class GatewayConfig {
                         .uri("lb://customer-service"))
 
                 .route("account-service", r -> r.path("/account/**")
+                        .filters(f -> f.filter(filter))
                         .uri("lb://account-service"))
 
                 .route("auth-service", r -> r.path("/auth/**")
