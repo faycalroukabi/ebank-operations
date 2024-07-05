@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -70,7 +71,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO getCustomerById(Long id) throws CustomerNotFoundException {
+    public CustomerDTO getCustomerById(String id) throws CustomerNotFoundException {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow( () -> new CustomerNotFoundException("customer not found"));
         log.info("customer found by id");
@@ -78,7 +79,15 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void deleteCustomerById(Long id) {
+    public CustomerDTO getCustomerByCin(String cin) throws CustomerNotFoundException {
+        Customer customer = Optional.ofNullable(customerRepository.findByCin(cin))
+                .orElseThrow( () -> new CustomerNotFoundException("customer not found"));
+        log.info("customer found by id");
+        return mappers.fromCustomer(customer);
+    }
+
+    @Override
+    public void deleteCustomerById(String id) {
         customerRepository.deleteById(id);
         log.info("customer deleted");
     }

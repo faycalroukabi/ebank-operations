@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -62,17 +63,16 @@ public class BankAccountServiceImpl implements BankAccountService {
     @Override
     public CurrentAccountDTO saveCurrentBankAccount(SaveCurrentAccountDTO savedAccountDTO) throws CustomerNotFoundException {
 
-        CustomerDTO customer = getCustomerById(savedAccountDTO.customerId());
-        if(customer==null) {
-            throw new CustomerNotFoundException("Customer not found");
-        }
+        CustomerDTO customer = Optional.ofNullable(getCustomerByCin(savedAccountDTO.cin()))
+                .orElseThrow(() -> new CustomerNotFoundException("customer not found"));
         CurrentAccount currentAccount = new CurrentAccount();
         currentAccount.setId(idGenerator.autoGenerate());
         currentAccount.setCreatedAt(new Date());
-        currentAccount.setBalance(savedAccountDTO.initialBalance());
+        currentAccount.setBalance(BigDecimal.valueOf(10000));
         currentAccount.setCustomerId(customer.id());
         currentAccount.setStatus(AccountStatus.ACTIVATED);
-        currentAccount.setOverDraft(savedAccountDTO.overDraft());
+        currentAccount.setRib(savedAccountDTO.rib());
+        //currentAccount.setOverDraft(savedAccountDTO.overDraft());
         CurrentAccount savedBankAccount = bankAccountRepository.save(currentAccount);
         log.info("current bank account saved");
         return mappers.fromCurrentAccount(savedBankAccount);
@@ -107,6 +107,7 @@ public class BankAccountServiceImpl implements BankAccountService {
             currentAccount.setCustomerId(bankAccount.getCustomerId());
             currentAccount.setCreatedAt(bankAccount.getCreatedAt());
             currentAccount.setId(bankAccount.getId());
+            currentAccount.setRib(bankAccount.getRib());
             CurrentAccount current = bankAccountRepository.save(currentAccount);
             log.info("Current Bank Account Update");
             return mappers.fromCurrentAccount(current);
@@ -126,6 +127,7 @@ public class BankAccountServiceImpl implements BankAccountService {
             savingAccount.setBalance(accountDTO.balance());
             savingAccount.setInterestRate(accountDTO.interestRate());
             savingAccount.setStatus(accountDTO.status());
+            savingAccount.setRib(bankAccount.getRib());
             SavingAccount saving = bankAccountRepository.save(savingAccount);
             log.info("Current Bank Account Update");
             return mappers.fromSavingAccount(saving);
@@ -141,12 +143,12 @@ public class BankAccountServiceImpl implements BankAccountService {
         log.info("BankAccount found");
         if(bankAccount instanceof SavingAccount s) {
             return new AccountDTO(s.getId(), s.getBalance(), s.getCreatedAt(),s.getStatus(),
-                    s.getCustomerId(), -1, s.getInterestRate());
+                    s.getCustomerId(), -1, s.getInterestRate(), s.getRib());
         }
         else {
             CurrentAccount c = (CurrentAccount) bankAccount;
             return new AccountDTO(c.getId(), c.getBalance(), c.getCreatedAt(),c.getStatus(),
-                    c.getCustomerId(), c.getOverDraft(), -1);
+                    c.getCustomerId(), c.getOverDraft(), -1, c.getRib());
         }
     }
 
@@ -161,6 +163,15 @@ public class BankAccountServiceImpl implements BankAccountService {
     private CustomerDTO getCustomerById(String id) {
         try{
             return customerFeignService.getCustomerById(id);
+        }catch (Exception e){
+            log.error(e.getMessage());
+            return null;
+        }
+    }
+
+    private CustomerDTO getCustomerByCin(String cin) {
+        try{
+            return customerFeignService.getCustomerByCin(cin);
         }catch (Exception e){
             log.error(e.getMessage());
             return null;

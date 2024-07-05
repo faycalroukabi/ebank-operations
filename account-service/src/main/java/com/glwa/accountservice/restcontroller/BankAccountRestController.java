@@ -42,7 +42,7 @@ public class BankAccountRestController {
     }
 
     @PostMapping("/save/current")
-    CurrentAccountDTO saveCurrentBankAccount(SaveCurrentAccountDTO savedAccountDTO) throws CustomerNotFoundException {
+    CurrentAccountDTO saveCurrentBankAccount(@RequestBody SaveCurrentAccountDTO savedAccountDTO) throws CustomerNotFoundException {
         return bankAccountService.saveCurrentBankAccount(savedAccountDTO);
     }
 

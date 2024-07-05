@@ -41,12 +41,17 @@ public class CustomerRestController {
     }
 
     @GetMapping("/get/{id}")
-    public CustomerDTO getCustomerById(@PathVariable Long id) throws CustomerNotFoundException{
+    public CustomerDTO getCustomerById(@PathVariable String id) throws CustomerNotFoundException{
         return customerService.getCustomerById(id);
     }
 
+    @GetMapping("/find/{cin}")
+    public CustomerDTO getCustomerByCin(@PathVariable String cin) throws CustomerNotFoundException{
+        return customerService.getCustomerByCin(cin);
+    }
+
     @DeleteMapping("/delete/{id}")
-    public void deleteCustomerById(@PathVariable Long id){
+    public void deleteCustomerById(@PathVariable String id){
         customerService.deleteCustomerById(id);
     }
 

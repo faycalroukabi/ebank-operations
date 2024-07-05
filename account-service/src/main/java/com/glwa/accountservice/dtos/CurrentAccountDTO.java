@@ -10,16 +10,18 @@ public class CurrentAccountDTO extends BankAccountDTO  {
     private BigDecimal balance;
     private Date createdAt;
     private AccountStatus status;
-    private Long customerId;
+    private String customerId;
     private double overDraft;
+    private String rib;
 
-    public CurrentAccountDTO(String id, BigDecimal balance, Date createdAt, AccountStatus status, Long customerId, double overDraft) {
+    public CurrentAccountDTO(String id, BigDecimal balance, Date createdAt, AccountStatus status, String customerId, double overDraft, String rib) {
         this.id = id;
         this.balance = balance;
         this.createdAt = createdAt;
         this.status = status;
         this.customerId = customerId;
         this.overDraft = overDraft;
+        this.rib = rib;
     }
 
     public CurrentAccountDTO() {
@@ -58,11 +60,11 @@ public class CurrentAccountDTO extends BankAccountDTO  {
         this.status = status;
     }
 
-    public Long getCustomerId() {
+    public String getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
 
@@ -72,5 +74,13 @@ public class CurrentAccountDTO extends BankAccountDTO  {
 
     public void setOverDraft(double overDraft) {
         this.overDraft = overDraft;
+    }
+
+    public String getRib() {
+        return rib;
+    }
+
+    public void setRib(String rib) {
+        this.rib = rib;
     }
 }

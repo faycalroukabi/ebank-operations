@@ -28,4 +28,6 @@ public class BankAccount {
 
     @Column(nullable = false)
     private String customerId;
+    @Column(nullable = false)
+    private String rib;
 }
