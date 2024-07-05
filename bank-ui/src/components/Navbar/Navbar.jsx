@@ -66,20 +66,11 @@ const Navbar = ({ user }) => {
                                         </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link className="nav-link" to="/balHistory">
-                                            Balance History
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
                                         <Link className="nav-link" to="/transHistory">
                                             Transaction History
                                         </Link>
                                     </li>
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to="/transaction">
-                                            Transaction
-                                        </Link>
-                                    </li>
+
                                 </>
                             )}
                         </ul>

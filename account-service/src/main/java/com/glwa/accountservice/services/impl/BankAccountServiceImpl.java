@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -149,8 +150,15 @@ public class BankAccountServiceImpl implements BankAccountService {
         }
     }
 
+    @Override
+    public List<AccountDTO> getAllAccountByCustomerId(String cin) {
+        var customerDTO = customerFeignService.getCustomerById(cin);
+        List<BankAccount> bankAccounts = bankAccountRepository.findAllByCustomerId(customerDTO.id());
+        return mappers.fromListOfAccount(bankAccounts);
+    }
 
-    private CustomerDTO getCustomerById(Long id) {
+
+    private CustomerDTO getCustomerById(String id) {
         try{
             return customerFeignService.getCustomerById(id);
         }catch (Exception e){

@@ -1,61 +1,91 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
+import './TransferMoney.css';
+import { Transfer, LoadAccounts } from './service';
 
 const TransferMoney = () => {
-  const [receiver, setReceiver] = useState('');
-  const [amount, setAmount] = useState('');
-  const [motive, setMotive] = useState('');
+  const [formData, setFormData] = useState({
+    accountSource: '',
+    accountDestination: '',
+    amount: '',
+    motive: '',
+  });
 
+  const [accounts, setAccounts] = useState([]);
+
+  useEffect(() => {
+    const fetchAccounts = async () => {
+      try {
+        const cin = 1; // Replace with actual customer ID if needed
+        const response = await LoadAccounts(cin);
+        if (response) {
+          setAccounts(response);
+        }
+      } catch (error) {
+        toast.error('Something went wrong while loading accounts!');
+      }
+    };
+
+    fetchAccounts();
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        `/api/v1/transactions/transfer?receiver=${receiver}`,
-        { amount },
-        // {
-        //   withCredentials: true,
-        //   headers: {
-        //     'Authorization': 'Basic ' + btoa('admin:admin'),
-        //     'Content-Type': 'application/json',
-        //   },
-        // }
-      );
+      const dataToSend = {
+        ...formData,
+      };
+      const response = await Transfer(dataToSend);
 
       if (response.status === 200) {
-        toast.success(`Successfully transferred $${amount} to @_${receiver}`);
+        toast.success(`Successfully transferred $${formData.amount} to ${formData.accountDestination}`);
       } else {
         toast.error('You cannot transfer money to yourself');
       }
     } catch (error) {
-      toast.error(`Something went wrong!`);
+      toast.error('Something went wrong!');
     }
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-3">
       <div className="row justify-content-center">
         <div className="col-md-6">
-          <div className="card">
+          <div className="card accContainer">
             <div className="card-body">
               <h2 className="card-title">Nouveau virement</h2>
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
-                  <label htmlFor="recipient" className="form-label">
-                    Numéro RIB
+                  <label htmlFor="accountSource" className="form-label">
+                    Compte source
                   </label>
-                  <input
-                    type="text"
+                  <select
                     className="form-control"
-                    id="receiver"
-                    placeholder="Enter recipient's username"
-                    value={receiver}
-                    onChange={(e) => setReceiver(e.target.value)}
+                    id="accountSource"
+                    name="accountSource"
+                    value={formData.accountSource}
+                    onChange={handleChange}
                     required
-                  />
+                  >
+                    <option value="" disabled>
+                      Sélectionner le compte source
+                    </option>
+                    {accounts.map((account) => (
+                      <option key={account.id} value={account.id}>
+                        {account.id} - {account.balance} MAD
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div className="mb-3">
                   <label htmlFor="amount" className="form-label">
@@ -65,45 +95,45 @@ const TransferMoney = () => {
                     type="number"
                     className="form-control"
                     id="amount"
-                    placeholder="Enter amount"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
+                    name="amount"
+                    placeholder="Entrer le montant"
+                    value={formData.amount}
+                    onChange={handleChange}
                     required
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="recipient" className="form-label">
-                    Le RIB destinataire
+                  <label htmlFor="accountDestination" className="form-label">
+                    Compte de destination
                   </label>
                   <input
                     type="text"
                     className="form-control"
-                    id="receiver"
-                    placeholder="Enter recipient's username"
-                    value={receiver}
-                    onChange={(e) => setReceiver(e.target.value)}
+                    id="accountDestination"
+                    name="accountDestination"
+                    placeholder="Bénéficiaire"
+                    value={formData.accountDestination}
+                    onChange={handleChange}
                     required
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="recipient" className="form-label">
+                  <label htmlFor="motive" className="form-label">
                     Motif
                   </label>
                   <input
                     type="text"
                     className="form-control"
-                    id="receiver"
-                    placeholder="Enter recipient's username"
-                    value={receiver}
-                    onChange={(e) => setMotive(e.target.value)}
+                    id="motive"
+                    name="motive"
+                    placeholder="Motif"
+                    value={formData.motive}
+                    onChange={handleChange}
                     required
                   />
                 </div>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                >
-                  Send
+                <button type="submit" className="btn btn-primary">
+                  Envoyer
                 </button>
               </form>
             </div>

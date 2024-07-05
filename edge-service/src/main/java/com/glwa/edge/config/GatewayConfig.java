@@ -18,22 +18,18 @@ public class GatewayConfig {
     public RouteLocator routes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("user-service", r -> r.path("/user/**")
-                        .filters(f -> f.filter(filter))
                         .uri("lb://user-service"))
 
                 .route("customer-service", r -> r.path("/customer/**")
-                        .filters(f -> f.filter(filter))
                         .uri("lb://customer-service"))
 
                 .route("account-service", r -> r.path("/account/**")
-                        .filters(f -> f.filter(filter))
-                        .uri("lb://notification-service"))
+                        .uri("lb://account-service"))
 
                 .route("auth-service", r -> r.path("/auth/**")
                         .uri("lb://auth-service"))
 
                 .route("transaction-service", r -> r.path("/transaction/**")
-                        .filters(f -> f.filter(filter))
                         .uri("lb://transaction-service"))
                 .build();
     }

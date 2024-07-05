@@ -27,5 +27,5 @@ public class BankAccount {
     private AccountStatus status;
 
     @Column(nullable = false)
-    private Long customerId;
+    private String customerId;
 }
