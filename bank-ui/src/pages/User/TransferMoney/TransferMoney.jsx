@@ -17,13 +17,13 @@ const TransferMoney = () => {
   useEffect(() => {
     const fetchAccounts = async () => {
       try {
-        const cin = 1; // Replace with actual customer ID if needed
+        const cin = '3c38ff0b-b2f0-48b8-b094-0cd15c7aaa70	';
         const response = await LoadAccounts(cin);
         if (response) {
           setAccounts(response);
         }
       } catch (error) {
-        toast.error('Something went wrong while loading accounts!');
+        toast.error('Une erreur sest produite lors du chargement des comptes!');
       }
     };
 
@@ -47,13 +47,13 @@ const TransferMoney = () => {
       };
       const response = await Transfer(dataToSend);
 
-      if (response.status === 200) {
-        toast.success(`Successfully transferred $${formData.amount} to ${formData.accountDestination}`);
+      if (response.accountSource !== null) {
+        toast.success(`Transféré avec succès ${formData.amount} MAD vers ${formData.accountDestination}`);
       } else {
-        toast.error('You cannot transfer money to yourself');
+        toast.error('Opération échoué');
       }
     } catch (error) {
-      toast.error('Something went wrong!');
+      toast.error('Erreur lors de transfert');
     }
   };
 

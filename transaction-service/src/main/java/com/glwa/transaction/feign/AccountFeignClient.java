@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "account-service")
 public interface AccountFeignClient {
-    @GetMapping("/api/v1/get/{id}")
+    @GetMapping("/account/get/{id}")
     BankAccountDTO getById(@PathVariable String id);
 
-    @GetMapping("/api/v1/find/{id}")
+    @GetMapping("/account/find/{id}")
     AccountDTO findById(@PathVariable String id);
 
-    @PutMapping("/api/v1/update/current")
+    @PutMapping("/account/update/current")
     CurrentAccountDTO updateCurrentAccount(@RequestBody UpdateCurrentAccountDTO accountDTO);
 
-    @PutMapping("/api/v1/update/saving")
+    @PutMapping("/account/update/saving")
     SavingAccountDTO updateSavingAccount(@RequestBody UpdateSavingAccountDTO savingAccountDTO);
 }

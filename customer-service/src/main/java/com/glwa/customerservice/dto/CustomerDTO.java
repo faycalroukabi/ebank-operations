@@ -3,7 +3,7 @@ package com.glwa.customerservice.dto;
 import java.util.Date;
 
 public record CustomerDTO(
-        Long id,
+        String id,
         String firstname,
         String name,
         String placeOfBirth,

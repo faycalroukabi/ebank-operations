@@ -70,6 +70,6 @@ public class MappersImpl implements Mappers {
     }
 
     public AccountDTO fromCurrentAccount(BankAccount currentAccount) {
-        return new AccountDTO(currentAccount.getId(),currentAccount.getBalance(),currentAccount.getCreatedAt(),currentAccount.getStatus(),currentAccount.getCustomerId(),0,0);
+        return new AccountDTO(currentAccount.getId(),currentAccount.getBalance(),currentAccount.getCreatedAt(),currentAccount.getStatus(),currentAccount.getCustomerId(),0,0, currentAccount.getRib());
     }
 }

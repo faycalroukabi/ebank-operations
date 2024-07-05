@@ -68,12 +68,12 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransferDTO transfer(TransferDTO transferDTO) throws BalanceNotSufficientException {
-        DebitDTO debitDTO = new DebitDTO(transferDTO.accountSource(), transferDTO.amount(), transferDTO.description());
+        DebitDTO debitDTO = new DebitDTO(transferDTO.accountSource(), transferDTO.amount(), transferDTO.motive());
         DebitDTO debitDTOSaved = debit(debitDTO);
-        CreditDTO creditDTO = new CreditDTO(transferDTO.accountDestination(), transferDTO.amount(), transferDTO.description());
+        CreditDTO creditDTO = new CreditDTO(transferDTO.accountDestination(), transferDTO.amount(), transferDTO.motive());
         CreditDTO creditDTOSaved = credit(creditDTO);
         log.info("transfer successfully");
-        return new TransferDTO(debitDTOSaved.accountId(), creditDTOSaved.accountId(), creditDTOSaved.amount(), debitDTOSaved.description());
+        return new TransferDTO(debitDTOSaved.accountId(), creditDTOSaved.accountId(), creditDTOSaved.amount(), debitDTOSaved.motive());
     }
 
     @Override
@@ -114,7 +114,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .amount(creditDTO.amount())
                 .bankAccountId(account.id())
                 .date(new Date())
-                .description(creditDTO.description())
+                .description(creditDTO.motive())
                 .type(OperationType.CREDIT)
                 .build();
         Transaction transactionSaved = operationRepository.save(transaction);
@@ -127,7 +127,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .amount(debitDTO.amount())
                 .bankAccountId(account.id())
                 .date(new Date())
-                .description(debitDTO.description())
+                .description(debitDTO.motive())
                 .type(OperationType.CREDIT)
                 .build();
         Transaction transactionSaved = operationRepository.save(transaction);

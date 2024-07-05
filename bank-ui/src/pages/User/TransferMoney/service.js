@@ -13,13 +13,12 @@ export const Transfer = (account) =>
     data,
 });
 
-export const LoadAccounts = (customerId) => 
+export const LoadAccounts = (cin) => 
 {
-    return loadAccountsServiceRequest("/account/list/customerId", "GET", customerId);
+    return loadAccountsServiceRequest(`/account/list/${cin}`, "GET");
 }
-  const loadAccountsServiceRequest = (path, method = "GET", data) =>
+  const loadAccountsServiceRequest = (path, method = "GET") =>
    request({
     url: `${"http://localhost:9999"}${path}`,
     method,
-    data,
 });

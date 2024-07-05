@@ -13,8 +13,8 @@ public class CurrentAccount extends BankAccount {
 
     private double overDraft;
 
-    public CurrentAccount(String id, BigDecimal balance, Date createdAt, AccountStatus status, Long customerId, double overDraft) {
-        super(id, balance, createdAt, status, customerId);
+    public CurrentAccount(String id, BigDecimal balance, Date createdAt, AccountStatus status, String customerId, double overDraft, String rib) {
+        super(id, balance, createdAt, status, customerId, rib);
         this.overDraft = overDraft;
     }
 

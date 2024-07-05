@@ -11,6 +11,6 @@ public interface CustomerFeignService {
     @GetMapping("/customer/get/{id}")
     CustomerDTO getCustomerById(@PathVariable  String id);
 
-    @GetMapping("/customer/get/{cin}")
+    @GetMapping("/customer/find/{cin}")
     CustomerDTO getCustomerByCin(@PathVariable  String cin);
 }

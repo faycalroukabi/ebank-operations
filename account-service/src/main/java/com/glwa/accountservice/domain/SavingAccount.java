@@ -13,8 +13,8 @@ public class SavingAccount extends BankAccount {
 
     private double interestRate;
 
-    public SavingAccount(String id, BigDecimal balance, Date createdAt, AccountStatus status, Long customerId, double interestRate) {
-        super(id, balance, createdAt, status, customerId);
+    public SavingAccount(String id, BigDecimal balance, Date createdAt, AccountStatus status, String customerId, double interestRate, String rib) {
+        super(id, balance, createdAt, status, customerId, rib);
         this.interestRate = interestRate;
     }
 

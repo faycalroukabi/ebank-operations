@@ -10,20 +10,22 @@ public class SavingAccountDTO  extends BankAccountDTO {
     private BigDecimal balance;
     private Date createdAt;
     private AccountStatus status;
-    private Long customerId;
+    private String customerId;
     private double interestRate;
+    private String rib;
 
     public SavingAccountDTO() {
         super();
     }
 
-    public SavingAccountDTO(String id, BigDecimal balance, Date createdAt, AccountStatus status, Long customerId, double interestRate) {
+    public SavingAccountDTO(String id, BigDecimal balance, Date createdAt, AccountStatus status, String customerId, double interestRate, String rib) {
         this.id = id;
         this.balance = balance;
         this.createdAt = createdAt;
         this.status = status;
         this.customerId = customerId;
         this.interestRate = interestRate;
+        this.rib = rib;
     }
 
     public String getId() {
@@ -58,12 +60,20 @@ public class SavingAccountDTO  extends BankAccountDTO {
         this.status = status;
     }
 
-    public Long getCustomerId() {
+    public String getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(String customerId) {
         this.customerId = customerId;
+    }
+
+    public String getRib() {
+        return rib;
+    }
+
+    public void setRib(String rib) {
+        this.rib = rib;
     }
 
     public double getInterestRate() {
